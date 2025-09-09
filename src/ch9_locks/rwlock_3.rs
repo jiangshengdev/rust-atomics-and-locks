@@ -27,7 +27,7 @@ impl<T> RwLock<T> {
         }
     }
 
-    pub fn read(&self) -> ReadGuard<T> {
+    pub fn read(&'_ self) -> ReadGuard<'_, T> {
         let mut s = self.state.load(Relaxed);
         loop {
             if s % 2 == 0 { // Even.
@@ -46,7 +46,7 @@ impl<T> RwLock<T> {
         }
     }
 
-    pub fn write(&self) -> WriteGuard<T> {
+    pub fn write(&'_ self) -> WriteGuard<'_, T> {
         let mut s = self.state.load(Relaxed);
         loop {
             // Try to lock if unlocked.

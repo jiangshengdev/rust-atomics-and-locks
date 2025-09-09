@@ -40,7 +40,7 @@ impl<T> Mutex<T> {
         }
     }
 
-    pub fn lock(&self) -> MutexGuard<T> {
+    pub fn lock(&'_ self) -> MutexGuard<'_, T> {
         // Set the state to 1: locked.
         while self.state.swap(1, Acquire) == 1 {
             // If it was already locked..

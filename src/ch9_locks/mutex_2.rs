@@ -41,7 +41,7 @@ impl<T> Mutex<T> {
         }
     }
 
-    pub fn lock(&self) -> MutexGuard<T> {
+    pub fn lock(&'_ self) -> MutexGuard<'_, T> {
         if self.state.compare_exchange(0, 1, Acquire, Relaxed).is_err() {
             while self.state.swap(2, Acquire) != 0 {
                 wait(&self.state, 2);
